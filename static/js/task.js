@@ -3,7 +3,7 @@
  */
 
 var	version = 1.0,
-	TESTING = true,
+	TESTING = false,
 	SEED = false, // no yoking yet
 	SHOW_NAMES,
 	N_ITEMS = 6,
@@ -211,7 +211,7 @@ psiTurk.preloadPages(['setup.html',
 
 // load images defined in stimuli.js
 psiTurk.preloadImages(IMAGES);
-psiTurk.preloadImages(['static/images/arrow_right.png',
+psiTurk.preloadImages(['static/images/arrow.png',
 					   'static/images/study_example_PA.png',
 					   'static/images/study_example_TI.png']);
 
@@ -743,11 +743,11 @@ var StudyTrial = function(block, trial) {
 
 		// the image
 		self.arrow = self.stage.append('image')
-							.attr('x', 350)
-							.attr('y', h + item.col*self.item_h)
-							.attr('width', 100)
-							.attr('height', 50)
-							.attr('xlink:href', 'static/images/arrow_right.png')
+							.attr('x', 360)
+							.attr('y', h + item.col*self.item_h - 20)
+							.attr('width', 71)
+							.attr('height', 143)
+							.attr('xlink:href', 'static/images/arrow.png')
 							.attr('opacity', 0);
 
 		self.arrow.attr('opacity', 1);

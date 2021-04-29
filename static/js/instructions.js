@@ -58,16 +58,16 @@ var Instructions1 = function() {
                   '(<i>fase di apprendimento</i>). Per esempio, potresti imparare che il mostro Rosa è più bravo '+
                   'del mostro Verde, e che il mostro Verde è più bravo del mostro Giallo.');
 
-    self.add_image('static/images/study_example_TI.png', 570, 290);
-    self.add_image('static/images/study_example_TI_2.png', 570, 290);
+    self.add_image('static/images/study_example_TI.png', 644, 290);
+    self.add_image('static/images/study_example_TI_2.png', 644, 290);
 
     self.add_text('Nella <i>seconda fase</i> del turno (<i>fase di verifica</i>) ti verrà chiesto di stabilire una classifica '+
                   'dei mostri in base alla loro bravura sulla base delle informazioni raccolte nella fase precedente.');
 
-    self.add_text('Per esempio, nel caso indicato sopra, chi ritieni che sia il mostro più bravo di tutti, Rosa o Giallo?');
+    self.add_text('Per esempio, nel caso indicato sopra, chi ritieni che sia il mostro più bravo di tutti, Giallo o Rosa?');
 
-    self.div.append('<button id=btn-A class="btn btn-default btn-lg" style="margin: 30px">Rosa</button>')
-    self.div.append('<button id=btn-C class="btn btn-default btn-lg">Giallo</button>')
+    self.div.append('<button id=btn-A class="btn btn-default btn-lg" style="margin: 30px">Giallo</button>')
+    self.div.append('<button id=btn-C class="btn btn-default btn-lg">Rosa</button>')
 
     self.div.append('<p id=fdbk style="color:red; font-style: italic; visibility: hidden; margin-left: 30px;">No, rileggi le istruzioni e prova ancora...</p>')
 
@@ -93,8 +93,6 @@ var InstructionsActiveBlock = function(block) {
 	var self = init_instruction(this, 1);
 
     var comp = ['X', 'Y'][block];
-
-    self.add_text('Stai per iniziare il gioco.');
 
     self.add_text('I mostri della nostra storia (disegnati qui sotto) sono specializzati nella raccolta '+
                   'di frutti magici. Alla fine della giornata, ogni mostro raccoglie sempre lo stesso '+
