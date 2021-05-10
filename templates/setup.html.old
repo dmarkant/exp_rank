@@ -24,7 +24,7 @@
 
         <!-- starting point -->
         <script type="text/javascript">
-            
+
             function start() {
 
                 $('.selectpicker').selectpicker({
@@ -34,8 +34,12 @@
                 check_btn = $('#check-button');
                 play_btn = $('#play-button');
                 participantid = $('#participantid');
-                
+                partnerid = $('#partnerid');
 
+
+                function run(id, partnerid) {
+                    window.location = '/exp?workerId='+id+'&assignmentId='+partnerid+'&hitId=None&mode=debug';
+                }
 
                 function check() {
                     entered = participantid.val();
@@ -58,18 +62,17 @@
                     check_btn.button('reset');
 
                     if (data.valid_id) {
-                        /*if (partnerid.val() == "None") {
+                        if (partnerid.val() == "None") {
                             console.log("valid id for seed");
                             $('#seed-valid').css('display', 'block');                            
                         } else {
                             console.log("valid id, with "+partnerid.val()+" as partner");
                             $('#all-valid').css('display', 'block');                            
-                        }*/
-                        $('#all-valid').css('display', 'block');                            
+                        }
 
                         play_btn.css('visibility', 'visible')
                         play_btn.on('click', function(e) {
-                                run(participantid.val())
+                                run(participantid.val(), partnerid.val());
                         });
                     } else {
                         console.log("invalid id");
@@ -78,67 +81,12 @@
 
                 }
 
-
-
-
-                function run(id) {
-
-                    redirect(id, "None");
-
-                    /*
-                    if (id.indexOf('seed') != -1) {
-                        redirect(id, "None");
-                    } else {
-                        // randomly choose a partner from the available list
-                        console.log('sampling a partner');
-                        $.ajax({url: 'partnerid',
-                                type: 'GET',
-                                async: false,
-                                success: function(resp) {
-                                    redirect(id, resp['partner_id']);
-                                }
-                        });
-                    }*/
-
-                }
-
-                function redirect(id, partnerid) {
-                    var hitid = id + '-' + partnerid + '-' + $('#age').val() + '-' + $('#gender').val();
-                    console.log(hitid);
-                    window.location = '/exp?workerId='+id+'&assignmentId='+partnerid+'&hitId='+hitid+'&mode=debug';
-                }
-
-
-
                 check_btn.on('click', function(e) {
-
-                    $('#participantid').css('border', '1px solid gray');
-                    $('#age').css('border', '1px solid gray');
-                    $('#gender').css('border', '1px solid gray');
-
-                    var missing = false;
-                    if ($('#participantid').val() === "") {
-                        missing = true;
-                        $('#participantid').css('border', '1px solid red');
-                    };
-
-                    if ($('#age').val() === "") {
-                        missing = true;
-                        $('#age').css('border', '1px solid red');
-                    };
-
-                    if ($('#gender').val() === "noresp") {
-                        missing = true;
-                        $('#gender').css('border', '1px solid red');
-                    };
-
-                    if (!missing) {
-                        $('.alert').css('display', 'none');
-                        check_btn.button('loading');
-                        check();
-                    }
-
+                    $('.alert').css('display', 'none');
+                    check_btn.button('loading');
+                    check();
                 })
+
             };
         </script>
 
@@ -151,48 +99,21 @@
 			<a href="http://support.google.com/bin/answer.py?hl=en&answer=23852">here</a><p>
 		</noscript>
 
-            <div id="container-instructions">
-
-                <p style="text-align:center; margin: 40px;">
-                Perfavore, inserisci il codice che ti abbiamo dato, la tua età e sesso.
-                </p>
+            <div id="container-exp">
 
                 <div id="setup">
-                    <p>
-                    Codice: <input id="participantid" type="text" class="form-control" placeholder="">                    
-                    </p>
-                    <p>
-                    Età: <input type=text class="form-control" id="age" placeholder="">
-                    </p>
-                    <p style="margin-bottom: 40px;">
-                    Sesso:<br />
-                    <select id="gender" name="gender">
-                        <option value="noresp" SELECTED></option>
-                        <option value="F">F</option>
-                        <option value="M">M</option>
-                        <option value="None">Non voglio specificare</option>
-                    </select>
-                    </p>
 
-                    <!--
                     <p><b>Enter participant ID</b>                    
                     <br />(Leave empty to test without saving data)</p>
                     <div class="input-group input-group-lg">
                     <input id="participantid" type="text" class="form-control" placeholder="">
                     </div>
-                    
 
-                    <div style="visibility:hidden;">
                     <p><b>Choose partner ID</b></p>
                     <select id=partnerid class="selectpicker" title="Choose partner ID">
                     <option value="None">None</option>
-                    {% for pid in partner_ids %}
-                    <option value="{{ pid }}">{{ pid }}</option>
-                    {% endfor %}
                     </select>
-                    </div>
-                    -->
-
+                    
                     <button id="check-button" type="button" class="btn btn-default btn-lg" aria-label="Left Align" data-loading-text="Checking..." autocomplete="off">
                         <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     </button>
@@ -201,12 +122,13 @@
                         <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
                     </button>
 
-                    <div id=all-valid class="alert alert-success" role="alert">Premi Play per iniziare</div>                    
+                    <div id=all-valid class="alert alert-success" role="alert">Press play to begin</div>                    
                     <div id=seed-valid class="alert alert-warning" role="alert">No partner specified, press play to run as seed</div>
-                    <div id=invalid class="alert alert-danger" role="alert">Questo codice è già stato usato!</div>
+                    <div id=invalid class="alert alert-danger" role="alert">Participant ID already exists</div>
+
 
                 </div>
-                <!--<a href='/setup2'>Retest</a>-->
+                <a href='/setup2'>Retest</a>
                 
             </div>
 

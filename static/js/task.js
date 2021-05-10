@@ -218,7 +218,8 @@ psiTurk.preloadPages(['setup.html',
 // load images defined in stimuli.js
 psiTurk.preloadImages(IMAGES_SHAPES);
 psiTurk.preloadImages(IMAGES_COLORS);
-psiTurk.preloadImages(['static/images/arrow.png',
+psiTurk.preloadImages(['static/images/fireworks.png',
+					   'static/images/arrow.png',
 					   'static/images/study_example_PA.png',
 					   'static/images/study_example_TI.png']);
 
@@ -999,16 +1000,24 @@ var Summary = function() {
 	output(['COMPLETE']);
 	psiTurk.saveData();
 
+
+	// update status code of participant in database
+	$.ajax({url: 'worker_complete',
+			data: 'uniqueId='+uniqueId,
+			type: 'GET',
+			async: false,
+			timeout: 10000,
+			dataType: 'json',
+			success: function(data) {
+				output(['updated_status']);
+			},
+			error: function(jqXHR, textStatus, errorThrown) {
+				output(['failed to update status']);
+			}
+	});
+
 	setTimeout(function() {
-		psiTurk.showPage('summary.html');
-		$('#partid').html(ids[0]);
-		$('#acc_round1').html(Number(accuracy_pct_block1).toFixed(2)*100 +'%');
-		$('#acc_round2').html(Number(accuracy_pct_block2).toFixed(2)*100 +'%');
-		$('#acc_combined').html(Number(accuracy_pct_combined).toFixed(2)*100 +'%');
-		$('#check-button').hide();
-		//$('#check-button').on('click', function(e) {
-		//	Exit();
-		//});
+		Instructions_Finish();
 	}, 1000);
 
 };
@@ -1037,7 +1046,7 @@ var Experiment = function(counterbalance) {
 			if (RETEST) {
 				InstructionsRetest();
 			} else {
-				PreQuestionnaire();
+				Instructions1();
 			}
 		} else {
 			self.begin_block();

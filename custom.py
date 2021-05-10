@@ -14,6 +14,8 @@ from psiturk.db import db_session, init_db
 from psiturk.models import Participant
 from json import dumps, loads
 
+import random
+
 # load the configuration options
 config = PsiturkConfig()
 config.load_config()
@@ -29,6 +31,108 @@ custom_code = Blueprint('custom_code', __name__,
 #  serving warm, fresh, & sweet custom, user-provided routes
 #  add them here
 ###########################################################
+@custom_code.route('/setup')
+def setup():
+    current_app.logger.info("Reached /setup")  # Print message to server.log for debugging
+    try:
+        return render_template('setup.html')
+    except TemplateNotFound:
+        abort(404)
+
+
+@custom_code.route('/check', methods=['GET'])
+def check_participant_id():
+    current_app.logger.info("Reached /check")  # Print message to server.log for debugging
+    uniqueId = request.args['uniqueId']
+
+    # lookup user in database
+    user = Participant.query.\
+           filter(Participant.workerid == uniqueId).\
+           all()
+
+    if len(user) == 0:
+        current_app.logger.info("No existing user with id %s" % uniqueId)  # Print message to server.log for debugging
+        valid_id = True
+    else:
+        current_app.logger.info("Already an existing user with id %s!" % uniqueId)  # Print message to server.log for debugging
+        valid_id = False
+
+    return jsonify({'valid_id': valid_id})
+
+
+@custom_code.route('/partnerid', methods=['GET'])
+def get_partner_id():
+    current_app.logger.info("Reached /partnerid")  # Print message to server.log for debugging
+    # get list of valid partners to choose from
+    q = Participant.query.\
+        filter(Participant.status >= 1).\
+        all()
+
+    partner_ids = []
+    for partner in q:
+        pid = str(partner.workerid)
+        status = int(partner.status)
+        # don't include any ids from retesting or debugging
+        if status == 3 and pid.count('-retest') == 0 and pid.count('throwaway') == 0:
+            partner_ids.append(str(partner.workerid))
+
+
+    if len(partner_ids) > 0:
+        # count the number of times a partnerid appears in the assignmentid column,
+        # then provide list of the IDs with the fewest counts
+        counts = []
+        for partner in partner_ids:
+            count = 0
+            for row in q:
+                if str(row.assignmentid) == partner:
+                    count += 1
+            counts.append(count)
+        inds = [i for i in range(len(counts)) if counts[i]==min(counts)]
+        ind = random.choice(inds)
+        partner_id = partner_ids[ind]
+    else:
+        partner_id = "None"
+
+    return jsonify({'partner_id': partner_id})
+
+
+@custom_code.route('/partnerdata', methods=['GET'])
+def get_partner_data():
+    current_app.logger.info("Reached /partnerdata")  # Print message to server.log for debugging
+    partnerid = request.args['partnerid']
+    # lookup user in database
+    partner = Participant.query.\
+              filter(Participant.workerid == partnerid).\
+              one()
+
+    partner_data = loads(partner.datastring)
+    study_data = []
+    for d in partner_data['data']:
+        if d['trialdata'][0] in ["study"]:
+            study_data.append(d)
+    return jsonify({'partner_data': study_data})
+
+
+@custom_code.route('/participantdata', methods=['GET'])
+def get_participant_data():
+    current_app.logger.info("Reached /participantdata")  # Print message to server.log for debugging
+    participantid = request.args['participantid']
+
+    # lookup user in database
+    part = Participant.query.\
+           filter(Participant.workerid == participantid).\
+           one()
+
+    part_data = loads(part.datastring)
+    data = []
+    for d in part_data['data']:
+        row = d['trialdata']
+        if len(row) > 3:
+            if (row[0] == "test" and row[2]=='item') or (row[0] == 'study' and row[3]=='item'):
+                data.append(d)
+
+    return jsonify({'participant_data': data})
+
 
 # ----------------------------------------------
 # example custom route

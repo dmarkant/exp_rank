@@ -9,7 +9,7 @@
 # Title that will be used for the HIT when posted to mturk
 # e.g.,
 #     title = Stroop task
-title = Active memory
+title = RANK
 
 # Description that will be used for the HIT when posted to mturk
 # e.g.,
@@ -80,10 +80,11 @@ title = Active memory
 [Database Parameters]
 # Participant data will be stored in this database.
 # If ON_CLOUD=1, then this defaults to env var $DATABASE_URL, if set.
-database_url = sqlite:///participants.db
+# database_url = sqlite:///participants.db
+database_url = mysql://webexp:psychdata@webexpdb.cnombrha1lct.us-west-2.rds.amazonaws.com:3306/experiment_data
 
 # Name of the database table where participant data will be stored
-table_name = active_memory
+table_name = ati_rank
 
 ############################# Server Parameters ################################
 [Server Parameters]

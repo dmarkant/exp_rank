@@ -203,8 +203,8 @@ var Instructions_Finish = function() {
                   'completare entrambi i giochi indicati sulla mail, sia questa che la prossima settimana, quando '+
                   'riceverai una seconda mail. E ricorda che ci sono anche due premi da 25 euro in palio per i '+
                   'migliori partecipanti!');
-    self.add_text('Grazie per la tua partecipazione.');j
-	add_next_instruction_button(function() { Summary(); });
+    self.add_text('Grazie per la tua partecipazione.');
+	//add_next_instruction_button(function() { Summary(); });
 
 }
 
