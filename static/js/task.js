@@ -5,7 +5,6 @@
 var	version = 1.0,
 	TESTING = false,
 	SEED = false, // no yoking yet
-	SHOW_NAMES,
 	N_ITEMS = 6,
 	N_STUDY_TRIALS = 30,
 	N_TEST_TRIALS = undefined, // if undefined, determined below
@@ -386,9 +385,6 @@ var Item = function(pars) {
 		self.framed = false;
 		self.face.attr('opacity', 0.);
 		self.obj.attr('opacity', 1.);
-		if (SHOW_NAMES) {
-			self.nameplate.attr('opacity', 1.)
-		};
 	};
 
 	self.object_off = function() {
@@ -563,7 +559,6 @@ var StudyTrial = function(block, trial) {
 	var self = this;
 	active_item = undefined,
 	self.study_cond = STUDY_COND[block];
-	SHOW_NAMES = false;
 	if (self.study_cond == 'active') {
 		IMAGES = IMAGES_ACTIVE;
 	} else {
@@ -786,27 +781,26 @@ var StudyTrial = function(block, trial) {
 var TITestTrial = function(block, trial) {
 	var self = this;
 	active_item = undefined;
-	SHOW_NAMES = false;
 	self.study_cond = STUDY_COND[block];
-	outpfx =['test', block, self.study_cond, trial, SHOW_NAMES];
+	outpfx =['test', block, self.study_cond, trial];
 
 	psiTurk.showPage('stage.html');
 	self.above_stage = d3.select("#aboveStage");
 	self.stage = d3.select('#stagesvg');
 	self.stage.attr('width', STAGE_WIDTH);
 	self.stage.attr('height', STAGE_HEIGHT);
-
 	self.stage.style('visibility', 'hidden')
 
-	self.stage_h = Number(self.stage.attr("height"));
-	self.stage_w = self.stage_h; // square
+	//self.stage_h = Number(self.stage.attr("height"));
+	self.stage_h = STAGE_HEIGHT;
+	self.stage_w = STAGE_HEIGHT; // square
 	self.nrow = 2;
 	self.ncol = 2;
 	self.item_w = (self.stage_w - 100) / self.nrow;
-	self.item_h = (self.stage_h - 40) / self.ncol;
+	self.item_h = (STAGE_HEIGHT - 40) / self.ncol;
 	self.x_off = (Number(self.stage.attr("width")) - self.stage_w) / 2;
+	self.y_off = -100;
 	self.target_ind = null;
-
 
 	self.pair = testitems[block][trial];
 	self.lower_stimid = self.pair[0];
@@ -815,7 +809,7 @@ var TITestTrial = function(block, trial) {
 
 	self.test = function() {
 
-		self.above_stage.html('Quale dei due mostri è meno bravo?')
+		self.above_stage.html('Turn '+(trial+1)+'/'+N_TEST_TRIALS+'<br />Quale dei due mostri è meno bravo?')
 
 		// randomize which side
 		if (Math.random() < .5) {
