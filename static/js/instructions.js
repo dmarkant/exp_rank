@@ -199,10 +199,9 @@ var Instructions_Finish = function() {
     $('#header').html('Congratulazioni!');
     self.add_image('static/images/fireworks.png', 400, 269);
 
-    self.add_text('Gioco completato! Hai finito questo gioco! Ricorda che per ricevere il buono di 15 euro devi '+
-                  'completare entrambi i giochi indicati sulla mail, sia questa che la prossima settimana, quando '+
-                  'riceverai una seconda mail. E ricorda che ci sono anche due premi da 25 euro in palio per i '+
-                  'migliori partecipanti!');
+    self.add_text('Hai finito questo gioco! Ricorda che per ricevere il buono di 15 euro devi completare '+
+                  'tutte le sessioni di gioco, sia questa che quelle che ti saranno proposte nei prossimi '+
+                  'giorni. E ricorda che ci sono anche due premi da 25 euro in palio!');
     self.add_text('Grazie per la tua partecipazione.');
 	//add_next_instruction_button(function() { Summary(); });
 
