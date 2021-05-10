@@ -56,10 +56,14 @@ var Instructions1 = function() {
 
     self.add_text('Nella <i>prima fase</i> di ogni turno, potrai confrontare la bravura di alcune coppie di mostri '+
                   '(<i>fase di apprendimento</i>). Per esempio, potresti imparare che il mostro Rosa è più bravo '+
-                  'del mostro Verde, e che il mostro Verde è più bravo del mostro Giallo.');
+                  'del mostro Verde:');
 
-    self.add_image('static/images/study_example_TI.png', 644, 290);
-    self.add_image('static/images/study_example_TI_2.png', 644, 290);
+    self.add_image('static/images/study_example_TI.png', 580, 262);
+
+    self.add_text('e che il mostro Verde è più bravo del mostro Giallo:');
+
+
+    self.add_image('static/images/study_example_TI_2.png', 580, 262);
 
     self.add_text('Nella <i>seconda fase</i> del turno (<i>fase di verifica</i>) ti verrà chiesto di stabilire una classifica '+
                   'dei mostri in base alla loro bravura sulla base delle informazioni raccolte nella fase precedente.');

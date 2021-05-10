@@ -219,8 +219,8 @@ psiTurk.preloadImages(IMAGES_SHAPES);
 psiTurk.preloadImages(IMAGES_COLORS);
 psiTurk.preloadImages(['static/images/fireworks.png',
 					   'static/images/arrow.png',
-					   'static/images/study_example_PA.png',
-					   'static/images/study_example_TI.png']);
+					   'static/images/study_example_TI.png',
+					   'static/images/study_example_TI_2.png']);
 
 
 $('#loading').css('display', 'none');
