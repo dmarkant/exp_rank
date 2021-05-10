@@ -104,7 +104,7 @@ var InstructionsActiveBlock = function(block) {
     s = '<div class="display:block;">';
     for (var i=0; i < activeitems.length; i++) {
         ind = tmpitems[i];
-        s += instruction_image_element(IMAGES[activeitems[ind]], 120, 150, true);
+        s += instruction_image_element(IMAGES_ACTIVE[activeitems[ind]], 120, 120, true);
     }
     s += '</div>';
 
@@ -146,7 +146,7 @@ var InstructionsYokedBlock = function() {
     s = '<div class="display:block;">';
     for (var i=0; i < yokeditems.length; i++) {
         ind = tmpitems[i];
-        s += instruction_image_element(IMAGES_YOKED[yokeditems[ind]], 120, 150, true);
+        s += instruction_image_element(IMAGES_YOKED[yokeditems[ind]], 120, 120, true);
     }
     s += '</div>';
 

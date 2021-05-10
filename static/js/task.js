@@ -70,8 +70,14 @@ counterbalance = Number(counterbalance);
 output(['counterbalance', counterbalance]);
 STUDY_COND = shuffle(['active', 'yoked']);
 
-IMAGES_ACTIVE = IMAGES;
-IMAGES_YOKED = IMAGES;
+
+if (Math.random() < .5) {
+	IMAGES_ACTIVE = IMAGES_SHAPES;
+	IMAGES_YOKED = IMAGES_COLORS;
+} else {
+	IMAGES_ACTIVE = IMAGES_COLORS;
+	IMAGES_YOKED = IMAGES_SHAPES;
+}
 
 
 
@@ -210,7 +216,8 @@ psiTurk.preloadPages(['setup.html',
 					  'summary.html']);
 
 // load images defined in stimuli.js
-psiTurk.preloadImages(IMAGES);
+psiTurk.preloadImages(IMAGES_SHAPES);
+psiTurk.preloadImages(IMAGES_COLORS);
 psiTurk.preloadImages(['static/images/arrow.png',
 					   'static/images/study_example_PA.png',
 					   'static/images/study_example_TI.png']);
@@ -577,8 +584,8 @@ var StudyTrial = function(block, trial) {
 	self.stage_w = self.stage_h; // square
 	self.y_off = 50;
 	self.x_off = (Number(self.stage.attr("width")) - self.stage_w) / 2;
-	self.item_w = (self.stage_w - 100) / self.nrow;
-	self.item_h = (self.stage_h - 40) / self.ncol;
+	self.item_w = (self.stage_w - 140) / self.nrow;
+	self.item_h = (self.stage_h - 60) / self.ncol;
 
 	// sample options for this trial
 	var pairs = sample_options_TI(block, trial);
@@ -733,8 +740,8 @@ var StudyTrial = function(block, trial) {
 
 		self.rel = self.stage.append('text')
 							.text(rel)
-							.attr('x', 400)
-							.attr('y', h + item.col*self.item_h - 10)
+							.attr('x', 380)
+							.attr('y', h + item.col*self.item_h - 20)
 							.attr('text-anchor', 'middle')
 							.style('font-size', '1em')
 							.style('font-family', 'Helvetica')
@@ -743,8 +750,8 @@ var StudyTrial = function(block, trial) {
 
 		// the image
 		self.arrow = self.stage.append('image')
-							.attr('x', 360)
-							.attr('y', h + item.col*self.item_h - 20)
+							.attr('x', 340)
+							.attr('y', h + item.col*self.item_h - 30)
 							.attr('width', 71)
 							.attr('height', 143)
 							.attr('xlink:href', 'static/images/arrow.png')
@@ -807,7 +814,7 @@ var TITestTrial = function(block, trial) {
 
 	self.test = function() {
 
-		self.above_stage.html('Who is ranked higher in the company?')
+		self.above_stage.html('Quale dei due mostri è meno bravo?')
 
 		// randomize which side
 		if (Math.random() < .5) {
