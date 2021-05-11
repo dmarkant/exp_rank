@@ -20,8 +20,6 @@ var	version = 1.0,
 	STUDY_COND,
 	IMAGES_ACTIVE,
 	IMAGES_YOKED,
-	NAMES_ACTIVE,
-	NAMES_YOKED,
 	exp,
 	active_item = undefined,
 	yokeddata = [],
@@ -62,14 +60,9 @@ function output(arr) {
 // For this yoked, lab-only experiment, the uniqueId
 // has the format <new participant id>:<partner id>
 var partnerid = ids[1];
-
-
-TASK_COND = 'TI';
 counterbalance = Number(counterbalance);
 output(['counterbalance', counterbalance]);
 STUDY_COND = shuffle(['active', 'yoked']);
-
-
 if (Math.random() < .5) {
 	IMAGES_ACTIVE = IMAGES_SHAPES;
 	IMAGES_YOKED = IMAGES_COLORS;
@@ -809,7 +802,7 @@ var TITestTrial = function(block, trial) {
 
 	self.test = function() {
 
-		self.above_stage.html('Turn '+(trial+1)+'/'+N_TEST_TRIALS+'<br />Quale dei due mostri è meno bravo?')
+		self.above_stage.html('Turn '+(trial+1)+'/'+N_TEST_TRIALS+'<br />Quale dei due mostri è più bravo?')
 
 		// randomize which side
 		if (Math.random() < .5) {
