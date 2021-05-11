@@ -2700,3 +2700,5 @@ OSError: [Errno 57] Socket is not connected
 [2021-05-10 20:57:24 -0400] [70494] [CRITICAL] WORKER TIMEOUT (pid:70503)
 [2021-05-10 20:57:55 -0400] [70494] [CRITICAL] WORKER TIMEOUT (pid:74669)
 [2021-05-10 20:58:25 -0400] [70494] [CRITICAL] WORKER TIMEOUT (pid:74708)
+[2021-05-10 22:03:15 -0400] [74553] [ERROR] already_started_exp (1008) {'workerId': 'test3', 'assignmentId': 'None', 'hitId': 'test3-None-22-F', 'mode': 'debug'}
+2021-05-10 22:03:15,940 already_started_exp (1008) {'workerId': 'test3', 'assignmentId': 'None', 'hitId': 'test3-None-22-F', 'mode': 'debug'}

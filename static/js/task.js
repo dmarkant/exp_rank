@@ -505,6 +505,9 @@ function sample_options_TI(block, trial) {
 	options = range(N_ITEMS - 1);
 	stimids = stimuli[block];
 
+	// frequency with which each option has already been sampled
+	freqs = _.map(stimids, function(i) { return _.filter(sampled_options[block], function(x) { return x==i; }).length });
+
 	if (trial==0) {
 		first = options.sample(1)[0];
 		left = _.difference(options, [first-1, first, first+1]);
@@ -519,6 +522,14 @@ function sample_options_TI(block, trial) {
 			return (dist == 1);
 		})
 		far_ind  = _.filter(options, function(ind) { return Math.abs(prev_ind - ind) > 1; })
+
+
+		// filter sets to sample options that have been sampled least often so far
+		near_freq = _.map(near_ind, function(i) { return freqs[i]; });
+		near_ind = _.filter(near_ind, function(ind) { return freqs[ind] == _.min(near_freq); });
+
+		far_freq = _.map(far_ind, function(i) { return freqs[i]; });
+		far_ind = _.filter(far_ind, function(ind) { return freqs[ind] == _.min(far_freq); });
 
 		first = near_ind.sample(1)[0];
 		second = far_ind.sample(1)[0];
@@ -984,6 +995,12 @@ var Summary = function() {
 	output(['accuracy_block1', accuracy_block1, accuracy_pct_block1]);
 	output(['accuracy_block2', accuracy_block2, accuracy_pct_block2]);
 	output(['accuracy_combined', accuracy_block1+accuracy_block2, accuracy_pct_combined]);
+
+	freq1 = _.map(stimuli[0], function(i) { return _.filter(sampled_options[0], function(x) { return x==i; }).length });
+	freq2 = _.map(stimuli[1], function(i) { return _.filter(sampled_options[1], function(x) { return x==i; }).length });
+	output(['sampled_freq_block1', freq1]);
+	output(['sampled_freq_block2', freq2]);
+
 	output(['COMPLETE']);
 	psiTurk.saveData();
 
@@ -1099,7 +1116,7 @@ var Experiment = function(counterbalance) {
 
 
 	// STIMULI SETUP
-	yokeditems = [];
+	// yokeditems = [];
 
 	/*
 	// study data from yoked partner
