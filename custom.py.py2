@@ -54,6 +54,7 @@ def setup2():
         if pid.count('throwaway') == 0 and pid.count('seed') == 0:
             partids.append(pid)
 
+
     try:
         return render_template('setup2.html',
                                partids=partids)
