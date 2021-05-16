@@ -51,7 +51,7 @@ def setup2():
     partids = []
     for result in q:
         pid = str(result.workerid)
-        if pid.count('throwaway') == 0 and pid.count('seed') == 0:
+        if pid.count('throwaway') == 0 and pid.count('seed') == 0 and pid.count('retest') == 0:
             partids.append(pid)
 
 
