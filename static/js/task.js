@@ -71,16 +71,15 @@ if (Math.random() < .5) {
 	IMAGES_YOKED = IMAGES_SHAPES;
 }
 
-
+// If retesting a participant, treat it as a
+// seed since there is no yoked partner
+var RETEST = (ids[0].indexOf('-retest') > -1);
 
 // in passive study, equal probability of selecting
 // near and far images
 var DIST_PASSIVE = shuffle(_.map(_.range(N_STUDY_TRIALS), function(i) { return i % 2; }));
 
 
-// If retesting a participant, treat it as a
-// seed since there is no yoked partner
-var RETEST = (ids[0].indexOf('-retest') > -1);
 
 /*
 // Loading data for yoked partner
@@ -155,7 +154,7 @@ if (!SEED) {
 
 // If this is a retest, load data from first session
 var prev_test_data = [];
-/*if (RETEST) {
+if (RETEST) {
 	output(['requesting data from first session']);
 	$.ajax({url: 'participantdata',
 			data: 'participantid='+ids[0].slice(0, ids[0].indexOf('-retest')),
@@ -166,6 +165,7 @@ var prev_test_data = [];
 			success: function(data) {
 				output(['retrieved participant data']);
 				prev_test_data = data['participant_data'];
+				prev_test_data = _.map(prev_test_data, function(x) { return x['trialdata']; });
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
 				output(['failed to retrieve data for participant: '+ids[0]]);
@@ -173,7 +173,9 @@ var prev_test_data = [];
 			}
 	});
 
-	STUDY_COND = _.filter(prev_test_data, function(row) { return row[0]=='study_cond'})[0].slice(1,3)
+
+	/*
+
 	IMAGE_TYPE = _.filter(prev_test_data, function(row) { return row[0]=='image_type'})[0].slice(1,3)
 
 	if (IMAGE_TYPE[0]=='men') {
@@ -193,8 +195,9 @@ var prev_test_data = [];
 			IMAGES_YOKED = IMAGES_WOMEN;
 		}
 	}
+	*/
 
-};*/
+};
 
 
 
@@ -786,6 +789,11 @@ var TITestTrial = function(block, trial) {
 	var self = this;
 	active_item = undefined;
 	self.study_cond = STUDY_COND[block];
+	if (self.study_cond == 'active') {
+		IMAGES = IMAGES_ACTIVE;
+	} else {
+		IMAGES = IMAGES_YOKED;
+	}
 	outpfx =['test', block, self.study_cond, trial];
 
 	psiTurk.showPage('stage.html');
@@ -1000,11 +1008,25 @@ var Summary = function() {
 	freq2 = _.map(stimuli[1], function(i) { return _.filter(sampled_options[1], function(x) { return x==i; }).length });
 	output(['sampled_freq_block1', freq1]);
 	output(['sampled_freq_block2', freq2]);
-
 	output(['COMPLETE']);
-	psiTurk.saveData();
 
 
+	psiTurk.saveData({
+		success: Finish,
+		error: function() {
+			console.log('error saving data');
+			Instructions_Finish();
+		}
+	});
+
+	//setTimeout(function() {
+	//	Instructions_Finish();
+	//}, 1000);
+
+};
+
+
+var Finish = function() {
 	// update status code of participant in database
 	$.ajax({url: 'worker_complete',
 			data: 'uniqueId='+uniqueId,
@@ -1019,16 +1041,9 @@ var Summary = function() {
 				output(['failed to update status']);
 			}
 	});
-
 	setTimeout(function() {
 		Instructions_Finish();
 	}, 1000);
-
-};
-
-
-var Exit = function() {
-	psiTurk.completeHIT();
 };
 
 
@@ -1048,7 +1063,7 @@ var Experiment = function(counterbalance) {
 
 		if (!SKIP_INSTRUCTIONS) {
 			if (RETEST) {
-				InstructionsRetest();
+				Instructions_Retest_Intro();
 			} else {
 				Instructions1();
 			}
@@ -1067,6 +1082,7 @@ var Experiment = function(counterbalance) {
 		if (self.blocknum < N_BLOCKS) {
 
 			if (RETEST) {
+				// straight to test
 				self.test();
 			} else {
 				self.studycond = STUDY_COND[self.blocknum];
@@ -1101,12 +1117,21 @@ var Experiment = function(counterbalance) {
 		if (SAVEDATA) psiTurk.saveData();
 		self.testtrial += 1;
 		if (self.testtrial==-1) {
-			InstructionsTest(self.blocknum);
+			if (RETEST) {
+				Instructions_Retest_Block(self.blocknum);
+			} else {
+				InstructionsTest(self.blocknum);
+			};
 		} else if (self.testtrial < N_TEST_TRIALS) {
 			self.view = new TITestTrial(self.blocknum, self.testtrial);
 		} else {
 			if (self.blocknum < (N_BLOCKS - 1)) {
-				self.view = new Break(self.begin_block);
+				if (RETEST) {
+					// skip the break for the retest
+					self.begin_block();
+				} else {
+					self.view = new Break(self.begin_block);
+				}
 			} else {
 				self.begin_block();
 			}
@@ -1161,8 +1186,22 @@ var Experiment = function(counterbalance) {
 	};*/
 
 
-	activeitems = shuffle(range(IMAGES_ACTIVE.length).sample(N_ITEMS));
-	yokeditems  = shuffle(range(IMAGES_YOKED.length).sample(N_ITEMS));
+	if (RETEST) {
+		activeitems = _.filter(prev_test_data, function(row) { return row[0]=='activeitems'})[0].slice(1,7)
+		yokeditems = _.filter(prev_test_data, function(row) { return row[0]=='yokeditems'})[0].slice(1,7)
+		activeimage = _.filter(prev_test_data, function(row) { return row[0]=='activeimages'})[0][1];
+		if (activeimage.indexOf('shape') != -1) {
+			IMAGES_ACTIVE = IMAGES_SHAPES;
+			IMAGES_YOKED = IMAGES_COLORS;
+		} else {
+			IMAGES_ACTIVE = IMAGES_COLORS;
+			IMAGES_YOKED = IMAGES_SHAPES;
+		}
+	} else {
+		activeitems = shuffle(range(IMAGES_ACTIVE.length).sample(N_ITEMS));
+		yokeditems  = shuffle(range(IMAGES_YOKED.length).sample(N_ITEMS));
+	}
+
 	if (STUDY_COND[0]=='active') {
 		stimuli = [activeitems, yokeditems];
 	} else {
@@ -1183,7 +1222,6 @@ var Experiment = function(counterbalance) {
 	if (N_TEST_TRIALS===undefined) {
 		N_TEST_TRIALS = testitems[0].length;
 	}
-
 
 	self.begin();
 };

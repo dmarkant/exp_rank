@@ -40,6 +40,30 @@ def setup():
         abort(404)
 
 
+@custom_code.route('/setup2')
+def setup2():
+    current_app.logger.info("Reached /setup2")  # Print message to server.log for debugging
+
+    # get list of valid participants who have
+    # already completed the experiment
+    q = Participant.query.\
+        filter(Participant.status >= 3).\
+        all()
+
+    partids = []
+    for result in q:
+        pid = str(result.workerid)
+        if pid.count('throwaway') == 0 and pid.count('seed') == 0:
+            partids.append(pid)
+
+    try:
+        return render_template('setup2.html',
+                               partids=partids)
+    except TemplateNotFound:
+        abort(404)
+
+
+
 @custom_code.route('/check', methods=['GET'])
 def check_participant_id():
     current_app.logger.info("Reached /check")  # Print message to server.log for debugging
@@ -128,7 +152,9 @@ def get_participant_data():
     for d in part_data['data']:
         row = d['trialdata']
         if len(row) > 3:
-            if (row[0] == "test" and row[2]=='item') or (row[0] == 'study' and row[3]=='item'):
+            if (row[0] == "test" and row[4]=='item') or (row[0] == 'study' and row[4]=='item'):
+                data.append(d)
+            elif row[0] in ['activeitems', 'yokeditems', 'activeimages', 'yokedimages']:
                 data.append(d)
 
     return jsonify({'participant_data': data})

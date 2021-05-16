@@ -212,19 +212,68 @@ var Instructions_Finish = function() {
 }
 
 
-/*
-var InstructionsRetest = function() {
+var Instructions_Retest_Intro = function() {
 	var self = init_instruction(this, 1);
 
+    self.add_text('Welcome back!');
 
-    self.add_text('Welcome back! Last time you were here, you learned about the relationships between ' +
-                  'people in two fictional companies (one made up of women and a second made of up men). ' +
-                  'In this session you will be tested on how much you can remember. As in the last session, ' +
-                  'please do your best to respond as accurately as possible.');
+    self.add_text('Last time you were here, you learned about the relationships between different monsters. ' +
+                  'You were then tested on how well you learned to predict which of two monsters was better.');
 
-    self.add_text('If you have any questions, please alert the experimenter. Otherwise, press the button ' +
-                  'below to begin the test when you are ready. Good luck!');
+    self.add_text('In this phase of the game, you will be tested in the same way as before. Do your best to '+
+                  'respond as accurately as possible based on what you learned in the previous session.');
+
+    self.add_text('Press the button below when you are ready to begin!');
 
 	add_next_instruction_button(function() { exp.begin_block(); });
 };
-*/
+
+
+var Instructions_Retest_Block = function(blocknum) {
+	var self = init_instruction(this, 1);
+
+    if (blocknum==0) {
+        $('#header').html('PRIMO TURNO – <i>Fase di verifica</i>');
+    } else {
+        $('#header').html('SECONDO TURNO – <i>Fase di verifica</i>');
+    }
+
+    self.add_text('Adesso vediamo cosa hai imparato sui nostri mostri!');
+
+    s = '<div class="display:block;">';
+    if (STUDY_COND[blocknum] == 'active') {
+        tmpitems = shuffle(range(activeitems.length));
+        for (var i=0; i < activeitems.length; i++) {
+            ind = tmpitems[i];
+            s += instruction_image_element(IMAGES_ACTIVE[activeitems[ind]], 120, 120, true);
+        }
+    } else {
+        tmpitems = shuffle(range(yokeditems.length));
+        for (var i=0; i < yokeditems.length; i++) {
+            ind = tmpitems[i];
+            s += instruction_image_element(IMAGES_YOKED[yokeditems[ind]], 120, 120, true);
+        }
+    }
+    s += '</div>';
+    self.div.append(s);
+
+    self.add_text('Nelle prossime pagine, rispondi alla '+
+                  'domanda che compare sullo schermo nel più breve tempo possibile, cercando di essere veloce. '+
+                  'Alla fine dell’intero esperimento potrai vedere a quante domande hai risposto correttamente.');
+
+	add_next_instruction_button(function() { exp.test(); });
+};
+
+
+var Instructions_Retest_Finish = function() {
+	var self = init_instruction(this, 'retest_finish');
+    $('#header').html('Congratulazioni!');
+    self.add_image('static/images/fireworks.png', 400, 269);
+
+    self.add_text('Hai finito questo gioco! Ricorda che per ricevere il buono di 15 euro devi completare '+
+                  'tutte le sessioni di gioco, sia questa che quelle che ti saranno proposte nei prossimi '+
+                  'giorni. E ricorda che ci sono anche due premi da 25 euro in palio!');
+    self.add_text('Grazie per la tua partecipazione.');
+
+}
+
