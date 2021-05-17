@@ -215,15 +215,16 @@ var Instructions_Finish = function() {
 var Instructions_Retest_Intro = function() {
 	var self = init_instruction(this, 1);
 
-    self.add_text('Welcome back!');
+    self.add_text('Bentornato!');
 
-    self.add_text('Last time you were here, you learned about the relationships between different monsters. ' +
-                  'You were then tested on how well you learned to predict which of two monsters was better.');
+    self.add_text('L’ultima volta che sei stato qui, hai imparato delle cose sulle relazioni fra alcuni mostri. '+
+                  'Ti è stato quindi chiesto di dimostrare con un test quanto tu avessi imparato a predire quale '+
+                  'tra due mostri fosse il più bravo.');
 
-    self.add_text('In this phase of the game, you will be tested in the same way as before. Do your best to '+
-                  'respond as accurately as possible based on what you learned in the previous session.');
+    self.add_text('In questa fase del gioco sarà eseguita la stessa verifica. Fai del tuo meglio per rispondere '+
+                  'nel modo più accurato basandoti su quanto ricordi della precedente sessione.');
 
-    self.add_text('Press the button below when you are ready to begin!');
+    self.add_text('Premi il bottone sottostante quando sei pronto per cominciare!');
 
 	add_next_instruction_button(function() { exp.begin_block(); });
 };
@@ -270,9 +271,9 @@ var Instructions_Retest_Finish = function() {
     $('#header').html('Congratulazioni!');
     self.add_image('static/images/fireworks.png', 400, 269);
 
-    self.add_text('Hai finito questo gioco! Ricorda che per ricevere il buono di 15 euro devi completare '+
-                  'tutte le sessioni di gioco, sia questa che quelle che ti saranno proposte nei prossimi '+
-                  'giorni. E ricorda che ci sono anche due premi da 25 euro in palio!');
+    self.add_text('Hai finito questo gioco! Se hai completato correttamente tutte le sessioni di gioco proposte '+
+                  'riceverai il tuo buono da 15 euro. E ricorda che ci sono anche altri due premi da 25 euro in palio!');
+
     self.add_text('Grazie per la tua partecipazione.');
 
 }
