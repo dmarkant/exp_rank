@@ -84,7 +84,7 @@ var Instructions1 = function() {
 var Instructions2 = function() {
 	var self = init_instruction(this, 1);
 
-    self.add_text('Ottimo lavoro. Se completerai il test in modo onesto potrai vincere un buono aggiuntivo di 25 euro!');
+    self.add_text('Ottimo lavoro!');
 
     self.add_text('Quindi cerca di fare del tuo meglio durante la prima fase per cercare di capire quali mostri sono più bravi degli altri!');
 
