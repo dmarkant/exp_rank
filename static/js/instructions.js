@@ -203,9 +203,8 @@ var Instructions_Finish = function() {
     $('#header').html('Congratulazioni!');
     self.add_image('static/images/fireworks.png', 400, 269);
 
-    self.add_text('Hai finito questo gioco! Ricorda che per ricevere il buono di 15 euro devi completare '+
-                  'tutte le sessioni di gioco, sia questa che quelle che ti saranno proposte nei prossimi '+
-                  'giorni. E ricorda che ci sono anche due premi da 25 euro in palio!');
+    self.add_text('Hai finito questo gioco. Se completerai correttamente anche la sessione della prossima '+
+                  'settimana riceverai in premio un piccolo e divertente regalo!');
     self.add_text('Grazie per la tua partecipazione.');
 	//add_next_instruction_button(function() { Summary(); });
 
@@ -271,10 +270,7 @@ var Instructions_Retest_Finish = function() {
     $('#header').html('Congratulazioni!');
     self.add_image('static/images/fireworks.png', 400, 269);
 
-    self.add_text('Hai finito questo gioco! Se hai completato correttamente tutte le sessioni di gioco proposte '+
-                  'riceverai il tuo buono da 15 euro. E ricorda che ci sono anche altri due premi da 25 euro in palio!');
-
-    self.add_text('Grazie per la tua partecipazione.');
+    self.add_text('Hai finito questo gioco! Grazie per la tua partecipazione.');
 
 }
 
