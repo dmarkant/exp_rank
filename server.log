@@ -2769,3 +2769,77 @@ OSError: [Errno 57] Socket is not connected
 [2021-05-16 14:25:59 -0400] [70111] [CRITICAL] WORKER TIMEOUT (pid:79209)
 [2021-05-16 14:25:59 -0400] [70111] [CRITICAL] WORKER TIMEOUT (pid:79210)
 [2021-05-16 14:25:59 -0400] [70111] [CRITICAL] WORKER TIMEOUT (pid:79211)
+[2021-07-29 09:17:49 -0400] [16652] [ERROR] Exception on /setup2 [GET]
+Traceback (most recent call last):
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/dmarkant/experiments/exp_rank/custom.py", line 50, in setup2
+    filter(Participant.status >= 3 and Participant.beginhit > '2021-07-01').\
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 3275, in __bool__
+    raise TypeError("Boolean value of this clause is not defined")
+TypeError: Boolean value of this clause is not defined
+2021-07-29 09:17:49,731 Exception on /setup2 [GET]
+Traceback (most recent call last):
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/dmarkant/experiments/exp_rank/custom.py", line 50, in setup2
+    filter(Participant.status >= 3 and Participant.beginhit > '2021-07-01').\
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/sqlalchemy/sql/elements.py", line 3275, in __bool__
+    raise TypeError("Boolean value of this clause is not defined")
+TypeError: Boolean value of this clause is not defined
+[2021-07-29 09:19:37 -0400] [16804] [ERROR] Exception on /setup2 [GET]
+Traceback (most recent call last):
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/dmarkant/experiments/exp_rank/custom.py", line 50, in setup2
+    filter(and_(Participant.status >= 3, Participant.beginhit > '2021-07-01')).\
+NameError: name 'and_' is not defined
+2021-07-29 09:19:37,108 Exception on /setup2 [GET]
+Traceback (most recent call last):
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/dmarkant/opt/anaconda3/envs/psiturk3/lib/python3.9/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/dmarkant/experiments/exp_rank/custom.py", line 50, in setup2
+    filter(and_(Participant.status >= 3, Participant.beginhit > '2021-07-01')).\
+NameError: name 'and_' is not defined
+[2021-07-29 09:32:53 -0400] [17065] [ERROR] already_started_exp (1008) {'workerId': 'DN2304-retest', 'assignmentId': 'None', 'hitId': 'None', 'mode': 'debug'}
+2021-07-29 09:32:53,977 already_started_exp (1008) {'workerId': 'DN2304-retest', 'assignmentId': 'None', 'hitId': 'None', 'mode': 'debug'}

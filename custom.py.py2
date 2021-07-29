@@ -45,7 +45,7 @@ def setup2():
     # get list of valid participants who have
     # already completed the experiment
     q = Participant.query.\
-        filter(Participant.status >= 3).\
+        filter(Participant.status >= 3, Participant.beginhit > '2021-07-01').\
         all()
 
     partids = []

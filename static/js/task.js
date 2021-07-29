@@ -1042,7 +1042,11 @@ var Finish = function() {
 			}
 	});
 	setTimeout(function() {
-		Instructions_Finish();
+		if (RETEST) {
+			Instructions_Retest_Finish();
+		} else {
+			Instructions_Finish();
+		}
 	}, 1000);
 };
 
