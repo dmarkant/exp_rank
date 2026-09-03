@@ -1,1 +1,4 @@
 config.txt
+*.DS_Store
+.psiturk_history
+custom.pyc
